@@ -1,12 +1,12 @@
-import logo from "./logo.svg";
-import "./App.css";
+import styles from "./App.module.css";
+
+// Import components
+import ReviewCard from "./components/ReviewCard";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Cantarito's Mexican Bar & Grill Review Page</p>
-      </header>
+    <div className={styles.app}>
+      <ReviewCard className={styles.reviewCard} />
     </div>
   );
 }

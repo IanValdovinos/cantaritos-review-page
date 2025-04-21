@@ -1,0 +1,54 @@
+.reviewCard {
+  width: 80%;
+  max-width: 25rem;
+  height: fit-content;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: rgb(211, 211, 211);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.reviewCardTitle {
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+.inputSection {
+  margin-bottom: 0.5rem;
+}
+
+.inputField {
+  width: 60%;
+  display: block;
+  padding: 0.3rem 0.2rem;
+  font-size: 1rem;
+}
+
+.textareaField {
+  resize: none;
+  width: 100%;
+  padding: 0.3rem 0.2rem;
+  font-size: 1rem;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+}
+
+/* --- Media Queries --- */
+@media screen and (max-width: 70rem) {
+}
+
+@media screen and (max-width: 50rem) {
+  .inputField {
+    width: 100%;
+    display: block;
+    padding: 0.3rem 0.2rem;
+    font-size: 1rem;
+  }
+}

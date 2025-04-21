@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import emailjs from "emailjs-com";
+
 import styles from "./reviewCard.module.css";
 
 function StarRating({
@@ -25,13 +27,6 @@ function StarRating({
     justifyContent: "center",
   };
 
-  const textStyle = {
-    lineHeight: "0",
-    margin: "0",
-    color,
-    fontSize: `${size / 1.5}px`,
-  };
-
   const starContainerStyle = {
     display: "flex",
   };
@@ -55,11 +50,6 @@ function StarRating({
           />
         ))}
       </div>
-      {/* <p style={textStyle}>
-        {messages.length === maxRating
-          ? messages[tempRating !== null ? tempRating - 1 : rating - 1]
-          : tempRating || rating || ""}
-      </p> */}
     </div>
   );
 }
@@ -108,8 +98,15 @@ function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   );
 }
 
-function ReviewCard({ className }) {
+function ReviewCard({
+  className,
+  emailJsServiceId,
+  emailJsTemplateId,
+  emailJsPublicKey,
+  googleMapsPlaceId,
+}) {
   const [userRating, setUserRating] = useState(0);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -119,7 +116,7 @@ function ReviewCard({ className }) {
     setUserRating(rating);
     if (rating >= 4) {
       window.open(
-        "https://search.google.com/local/writereview?placeid=ChIJaYKQtkTPJIgRTNeHHC-ukmk"
+        `https://search.google.com/local/writereview?placeid=${googleMapsPlaceId}`
       );
     }
   }
@@ -139,18 +136,26 @@ function ReviewCard({ className }) {
     setFeedback(newFeedback);
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert("Let's submit the form!");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Sends application to Rocky's email
+    emailjs
+      .sendForm(emailJsServiceId, emailJsTemplateId, e.target, emailJsPublicKey)
+      .then(() => {
+        setFormSubmitted(true);
+      });
   };
 
   return (
     <div className={`${styles.reviewCard} ${className}`}>
       <h1 className={styles.reviewCardTitle}>Rate Us</h1>
 
-      <StarRating color="black" onSetRating={onSelectRating} />
+      {!formSubmitted && (
+        <StarRating color="black" onSetRating={onSelectRating} />
+      )}
 
-      {userRating > 0 && userRating < 4 ? (
+      {userRating > 0 && userRating < 4 && !formSubmitted ? (
         <div className={styles.formContainer}>
           <form onSubmit={handleSubmit}>
             <div className={styles.inputSection}>
@@ -181,6 +186,7 @@ function ReviewCard({ className }) {
               <label>Tell us more about your experience:</label>
               <textarea
                 className={styles.textareaField}
+                name="feedback"
                 value={feedback}
                 onChange={handleFeedbackChange}
                 rows={6}
@@ -192,6 +198,10 @@ function ReviewCard({ className }) {
           </form>
         </div>
       ) : null}
+
+      {formSubmitted && (
+        <p>Thank you for your feedback! We'll be in touch with you soon.</p>
+      )}
     </div>
   );
 }

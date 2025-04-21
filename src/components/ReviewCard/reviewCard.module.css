@@ -19,7 +19,7 @@
 }
 
 .inputField {
-  width: 60%;
+  width: 100%;
   display: block;
   padding: 0.3rem 0.2rem;
   font-size: 1rem;
@@ -45,10 +45,4 @@
 }
 
 @media screen and (max-width: 50rem) {
-  .inputField {
-    width: 100%;
-    display: block;
-    padding: 0.3rem 0.2rem;
-    font-size: 1rem;
-  }
 }
